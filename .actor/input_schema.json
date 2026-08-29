@@ -1,0 +1,28 @@
+{
+  "title": "GSTIN Verification input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "apiKey": {
+      "title": "gstinapi.in API key",
+      "type": "string",
+      "editor": "textfield",
+      "description": "Free at https://www.gstinapi.in/register — 100 lookups on signup, no card required. Each lookup below consumes one credit.",
+      "isSecret": true
+    },
+    "gstins": {
+      "title": "GSTINs to verify",
+      "type": "array",
+      "editor": "stringList",
+      "description": "One or more 15-character GSTINs, one per line.",
+      "prefill": ["27AAPFU0939F1ZV"]
+    },
+    "includeProfile": {
+      "title": "Include profile details",
+      "type": "boolean",
+      "description": "Adds jurisdiction codes, e-invoicing status, and additional places of business — no extra credit cost.",
+      "default": false
+    }
+  },
+  "required": ["apiKey", "gstins"]
+}

@@ -1,0 +1,10 @@
+{
+  "actorSpecification": 1,
+  "name": "gstin-verification",
+  "title": "GSTIN Verification (India GST)",
+  "description": "Bulk-verify Indian GSTINs: legal name, trade name, registration status, taxpayer type, and address, sourced live from the GST network.",
+  "version": "1.0",
+  "input": "./input_schema.json",
+  "dockerfile": "../Dockerfile",
+  "readme": "../README.md"
+}

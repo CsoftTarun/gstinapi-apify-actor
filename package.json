@@ -1,0 +1,14 @@
+{
+  "name": "gstin-verification-actor",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Apify Actor: bulk GSTIN verification via gstinapi.in",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "apify": "^3.2.6"
+  }
+}
