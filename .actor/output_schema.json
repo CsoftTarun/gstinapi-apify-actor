@@ -4,6 +4,7 @@
   "description": "One row per GSTIN checked: status, legal name, trade name, taxpayer type, registration date and address, or the reason it could not be verified.",
   "properties": {
     "results": {
+      "type": "string",
       "title": "Verification results",
       "description": "The verified GSTINs as a table. Download as JSON, CSV or Excel from the dataset.",
       "template": "{{links.apiDefaultDatasetUrl}}/items?view=overview"
