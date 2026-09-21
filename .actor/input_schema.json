@@ -7,15 +7,17 @@
       "title": "gstinapi.in API key",
       "type": "string",
       "editor": "textfield",
-      "description": "Free at https://www.gstinapi.in/register — up to 100 free lookups (25 on signup, 25 for each of three setup steps), no card required. Each lookup below consumes one credit.",
+      "description": "Your gstinapi.in key. Free at https://www.gstinapi.in/register: up to 100 free lookups (25 on signup, 25 for each of three setup steps), no card. Each lookup consumes one credit. Leave this empty to run the built-in demo on the sandbox GSTIN 00AAAAA0000A1ZT, which needs no key and uses no credit.",
       "isSecret": true
     },
     "gstins": {
       "title": "GSTINs to verify",
       "type": "array",
       "editor": "stringList",
-      "description": "One or more 15-character GSTINs, one per line.",
-      "prefill": ["27AAPFU0939F1ZV"]
+      "description": "One or more 15-character GSTINs, one per line. The pre-filled 00AAAAA0000A1ZT is a sandbox number that returns a fixed sample result for free; replace it with real GSTINs and add your API key.",
+      "prefill": [
+        "00AAAAA0000A1ZT"
+      ]
     },
     "includeProfile": {
       "title": "Include profile details",
@@ -24,5 +26,7 @@
       "default": false
     }
   },
-  "required": ["apiKey", "gstins"]
+  "required": [
+    "gstins"
+  ]
 }

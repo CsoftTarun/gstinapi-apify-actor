@@ -10,6 +10,10 @@ Built on [gstinapi.in](https://www.gstinapi.in), a REST API for GSTIN verificati
 - Clean a customer or party master: catch mistyped GSTINs and the legal name each number really belongs to.
 - Verify GST numbers as part of onboarding, KYC or a marketplace seller check.
 
+## Try it first, with no key
+
+Run the Actor with its default input. It checks the sandbox number `00AAAAA0000A1ZT`, returns a fixed sample result marked `"demo": true`, and uses no credit. It shows the exact shape of the output before you sign up.
+
 ## How to use it
 
 1. Get a free API key at [gstinapi.in/register](https://www.gstinapi.in/register). Every account starts with up to 100 free lookups (25 on signup, 25 for each of three setup steps), with no card, and credits never expire.
@@ -20,7 +24,7 @@ Built on [gstinapi.in](https://www.gstinapi.in), a REST API for GSTIN verificati
 
 | Field | Required | Description |
 |---|---|---|
-| `apiKey` | Yes | Your gstinapi.in API key. |
+| `apiKey` | For real GSTINs | Your gstinapi.in API key. Leave it empty to run only the free sandbox demo. |
 | `gstins` | Yes | The 15-character GSTINs to verify, one per line. |
 | `includeProfile` | No | Adds jurisdiction codes, e-invoicing status, nature of business and additional places of business, at no extra credit cost. |
 

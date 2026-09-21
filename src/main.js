@@ -9,6 +9,10 @@ const BASE_URL = (process.env.GSTINAPI_BASE_URL || 'https://www.gstinapi.in').re
 // time in 429 retries.
 const MIN_INTERVAL_MS = Number(process.env.GSTINAPI_MIN_INTERVAL_MS ?? 1100);
 
+// A documented test number (state code 00 cannot exist on the GST network): the
+// API returns a fixed sample result for it and never charges a credit.
+const SANDBOX_GSTIN = '00AAAAA0000A1ZT';
+
 const GSTIN_RE = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -29,13 +33,15 @@ async function fetchWithRetry(url, apiKey, attempts = 3) {
   return res;
 }
 
-function successRow(gstin, body) {
+function successRow(gstin, body, demo) {
   const { data, credits_remaining, response_ms } = body ?? {};
   return {
     gstin,
     success: true,
+    ...(demo ? { demo: true } : {}),
     ...data,
-    credits_remaining,
+    // The demo key's own balance is not the caller's business.
+    ...(demo ? {} : { credits_remaining }),
     response_ms,
     checked_at: new Date().toISOString(),
   };
@@ -50,9 +56,6 @@ await Actor.init();
 const input = await Actor.getInput();
 const { apiKey, gstins, includeProfile } = input ?? {};
 
-if (!apiKey) {
-  throw new Error('apiKey is required. Get a free one at https://www.gstinapi.in/register');
-}
 if (!Array.isArray(gstins) || gstins.length === 0) {
   throw new Error('gstins must be a non-empty list of GSTINs');
 }
@@ -70,6 +73,29 @@ for (const raw of gstins) {
   }
   seen.add(gstin);
   unique.push(gstin);
+}
+if (unique.length === 0) {
+  throw new Error('gstins must contain at least one GSTIN');
+}
+
+// Demo mode: with no key, the sandbox GSTIN can still be run. The API answers
+// it with a fixed sample result and never charges for it, so it is served with
+// a demo key kept as a secret Actor environment variable (never in this code).
+// This is what lets the Store's automatic daily test, which runs the default
+// input with no key, succeed. Any other GSTIN needs the caller's own key.
+let key = apiKey;
+let demoMode = false;
+if (!key) {
+  const onlySandbox = unique.every(g => g === SANDBOX_GSTIN);
+  if (!onlySandbox) {
+    throw new Error('apiKey is required for real GSTINs. Get a free one at https://www.gstinapi.in/register, or leave apiKey empty and use only the sandbox GSTIN 00AAAAA0000A1ZT for a free demo.');
+  }
+  if (!process.env.GSTINAPI_DEMO_KEY) {
+    throw new Error('The keyless demo is not configured on this Actor. Add your gstinapi.in API key to run it.');
+  }
+  key = process.env.GSTINAPI_DEMO_KEY;
+  demoMode = true;
+  log.info('No API key given: running the free sandbox demo (no credit is used).');
 }
 
 let ok = 0;
@@ -96,7 +122,7 @@ for (const [i, gstin] of unique.entries()) {
 
   let res;
   try {
-    res = await fetchWithRetry(url, apiKey);
+    res = await fetchWithRetry(url, key);
   } catch (err) {
     await Actor.pushData(failureRow(gstin, `Request failed: ${err.message}`, null));
     failed++;
@@ -115,7 +141,7 @@ for (const [i, gstin] of unique.entries()) {
     continue;
   }
 
-  await Actor.pushData(successRow(gstin, body));
+  await Actor.pushData(successRow(gstin, body, demoMode));
   ok++;
 }
 
