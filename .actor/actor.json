@@ -3,11 +3,12 @@
   "name": "gstin-verification",
   "title": "GSTIN Verification (India GST)",
   "description": "Verify Indian GSTINs in bulk: legal name, active or cancelled status, taxpayer type, registration date and address, live from the GST network. Duplicates and malformed numbers cost nothing.",
-  "version": "1.1",
+  "version": "1.2",
   "input": "./input_schema.json",
   "dockerfile": "../Dockerfile",
   "readme": "../README.md",
   "storages": {
     "dataset": "./dataset_schema.json"
-  }
+  },
+  "output": "./output_schema.json"
 }
