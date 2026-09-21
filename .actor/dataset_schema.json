@@ -1,0 +1,48 @@
+{
+  "actorSpecification": 1,
+  "fields": {
+    "type": "object",
+    "properties": {
+      "gstin": { "type": "string" },
+      "success": { "type": "boolean" },
+      "legal_name": { "type": ["string", "null"] },
+      "trade_name": { "type": ["string", "null"] },
+      "status": { "type": ["string", "null"] },
+      "taxpayer_type": { "type": ["string", "null"] },
+      "registration_date": { "type": ["string", "null"] },
+      "cancellation_date": { "type": ["string", "null"] },
+      "state_code": { "type": ["string", "null"] },
+      "address": { "type": ["string", "null"] },
+      "pincode": { "type": ["string", "null"] },
+      "block_status": { "type": ["string", "null"] },
+      "credits_remaining": { "type": ["number", "null"] },
+      "http_status": { "type": ["number", "null"] },
+      "error": { "type": ["string", "null"] },
+      "checked_at": { "type": "string" }
+    }
+  },
+  "views": {
+    "overview": {
+      "title": "Verification results",
+      "transformation": {
+        "fields": ["gstin", "success", "status", "legal_name", "trade_name", "taxpayer_type", "registration_date", "cancellation_date", "address", "state_code", "error"]
+      },
+      "display": {
+        "component": "table",
+        "properties": {
+          "gstin": { "label": "GSTIN", "format": "text" },
+          "success": { "label": "Verified", "format": "boolean" },
+          "status": { "label": "Status", "format": "text" },
+          "legal_name": { "label": "Legal name", "format": "text" },
+          "trade_name": { "label": "Trade name", "format": "text" },
+          "taxpayer_type": { "label": "Taxpayer type", "format": "text" },
+          "registration_date": { "label": "Registered", "format": "text" },
+          "cancellation_date": { "label": "Cancelled", "format": "text" },
+          "address": { "label": "Address", "format": "text" },
+          "state_code": { "label": "State code", "format": "text" },
+          "error": { "label": "Error", "format": "text" }
+        }
+      }
+    }
+  }
+}

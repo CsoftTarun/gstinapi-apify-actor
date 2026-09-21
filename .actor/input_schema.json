@@ -7,7 +7,7 @@
       "title": "gstinapi.in API key",
       "type": "string",
       "editor": "textfield",
-      "description": "Free at https://www.gstinapi.in/register — 100 lookups on signup, no card required. Each lookup below consumes one credit.",
+      "description": "Free at https://www.gstinapi.in/register — up to 100 free lookups (25 on signup, 25 for each of three setup steps), no card required. Each lookup below consumes one credit.",
       "isSecret": true
     },
     "gstins": {
